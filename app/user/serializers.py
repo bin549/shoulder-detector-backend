@@ -25,18 +25,18 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class AuthTokenSerializer(serializers.Serializer):
-    telephone = serializers.CharField()
+    email = serializers.CharField()
     password = serializers.CharField(
         style={'input_type': 'password'},
         trim_whitespace=False,
     )
 
     def validate(self, attrs):
-        telephone = attrs.get('telephone')
+        email = attrs.get('email')
         password = attrs.get('password')
         user = authenticate(
             request=self.context.get('request'),
-            username=telephone,
+            username=email,
             password=password,
         )
         if not user:

@@ -7,7 +7,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'changeme')
 
 DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 ALLOWED_HOSTS.extend(
     filter(
         None,
@@ -38,6 +38,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:8081",
     "http://121.5.47.2:4000",
+    "http://localhost:4080",
+    "http://127.0.0.1:4080",
 ]
 
 MIDDLEWARE = [
