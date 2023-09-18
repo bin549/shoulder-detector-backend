@@ -16,6 +16,9 @@ RUN apk add libffi-dev
 RUN python -m venv /py
 RUN /py/bin/pip install --upgrade pip -i "https://pypi.tuna.tsinghua.edu.cn/simple/"
 RUN pip install wheel setuptools pip --upgrade -i "https://pypi.tuna.tsinghua.edu.cn/simple/"
+RUN apk add --update --no-cache postgresql-client jpeg-dev
+RUN apk add --update --no-cache --virtual .tmp-build-deps \
+        build-base postgresql-dev musl-dev zlib zlib-dev linux-headers
 
 RUN /py/bin/pip install -r /tmp/requirements.txt -i "https://pypi.tuna.tsinghua.edu.cn/simple/" && \
     if [ $DEV = "true" ]; \
