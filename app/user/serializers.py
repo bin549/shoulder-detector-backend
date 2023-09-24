@@ -9,10 +9,11 @@ from rest_framework import serializers
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ['email', 'password', 'username']
+        fields = ['email', 'password', 'username', 'id']
         extra_kwargs = {'password': {'write_only': True, 'min_length': 5}}
 
     def create(self, validated_data):
+        print(validated_data)
         return get_user_model().objects.create_user(**validated_data)
 
     def update(self, instance, validated_data):
@@ -25,18 +26,18 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class AuthTokenSerializer(serializers.Serializer):
-    email = serializers.CharField()
+    username = serializers.CharField()
     password = serializers.CharField(
         style={'input_type': 'password'},
         trim_whitespace=False,
     )
 
     def validate(self, attrs):
-        email = attrs.get('email')
+        username = attrs.get('username')
         password = attrs.get('password')
         user = authenticate(
             request=self.context.get('request'),
-            username=email,
+            username=username,
             password=password,
         )
         if not user:

@@ -1,5 +1,9 @@
 import os
 from pathlib import Path
+import django
+from django.utils.encoding import force_str
+
+django.utils.encoding.force_text = force_str
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,6 +32,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'core',
     'user',
+    'django_oss_storage',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -112,13 +117,20 @@ USE_I18N = True
 TIME_ZONE = 'Asia/Shanghai'
 USE_TZ = False
 
-STATIC_URL = '/static/static/'
-MEDIA_URL = '/static/media/'
-MEDIA_ROOT = '/vol/web/media'
-STATIC_ROOT = '/vol/web/static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
+
+DEFAULT_FILE_STORAGE = 'django_oss_storage.backends.OssMediaStorage'
+OSS_ACCESS_KEY_ID = 'LTAI5tH3N9bs5veG3cn84pNR'
+OSS_ACCESS_KEY_SECRET = 'LusobjZXgYqPptpawKOJGP46VRF5c3'
+OSS_BUCKET_NAME = 'shoulder'
+OSS_ENDPOINT = 'oss-accelerate.aliyuncs.com'
+
+
+MEDIA_URL = 'media/'
+STATIC_URL = '/static/'
+MEDIA_ROOT = BASE_DIR / 'media/'
