@@ -1,9 +1,19 @@
 from rest_framework import serializers
 from core.models import (
-    Examination
+    Examination,
+    ExaminationType,
 )
 
 
+
+class ExaminationTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExaminationType
+        fields = (
+            "id",
+            "name",
+            "create_time",
+        )
 
 class ExaminationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,4 +21,5 @@ class ExaminationSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "output_image",
+            "create_time",
         )

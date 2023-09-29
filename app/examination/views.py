@@ -12,6 +12,7 @@ from core.models import (
     User,
 )
 from .serializers import (
+    ExaminationTypeSerializer,
     ExaminationSerializer,
 )
 
@@ -20,6 +21,14 @@ class ExaminationAPI(APIView):
     def get(self, request, format=None):
         examinations = Examination.objects.filter(Q(user=request.query_params["user_id"])).order_by('-create_time')
         serializer = ExaminationSerializer(examinations, many=True)
+        return Response(serializer.data)
+
+
+
+class ExaminationTypeAPI(APIView):
+    def get(self, request, format=None):
+        examination_types = ExaminationType.objects.all()
+        serializer = ExaminationTypeSerializer(examination_types, many=True)
         return Response(serializer.data)
 
 

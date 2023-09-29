@@ -23,7 +23,22 @@ class UserManager(BaseUserManager):
         return user
 
 
+class Zone(models.Model):
+    is_delete = models.BooleanField(default=False, verbose_name=u'逻辑删除标志')
+    name = models.CharField(max_length=255, verbose_name=u'名称')
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name=u'创建时间')
+    update_time = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name=u'更新时间')
+    delete_time = models.DateTimeField(null=True, verbose_name=u'删除时间')
+
+    class Meta:
+        db_table = 'zone'
+
+
 class User(AbstractBaseUser, PermissionsMixin):
+    zone = models.ForeignKey(
+        Zone,null=True,default=1,
+        on_delete=models.CASCADE,
+    )
     telephone = models.CharField(max_length=11, unique=False)
     email = models.EmailField(max_length=255, unique=True)
     username = models.CharField(max_length=255, unique=True)
@@ -39,6 +54,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Patient(models.Model):
+    zone = models.ForeignKey(
+        Zone,
+        null=True,
+        on_delete=models.CASCADE,
+        default=1,
+    )
     is_delete = models.BooleanField(default=False, verbose_name=u'逻辑删除标志')
     name = models.CharField(max_length=255, verbose_name=u'姓名')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name=u'创建时间')
