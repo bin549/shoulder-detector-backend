@@ -212,7 +212,6 @@ def max_horizon_distance(polygons):
 
 def csa_angle(predictions):
     classes = predictions.pred_classes.tolist()
-    # print(classes)
     key_points = []
     masks = np.asarray(predictions.pred_masks)
     if len(masks) != 3:

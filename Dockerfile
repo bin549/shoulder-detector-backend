@@ -35,7 +35,7 @@ RUN pip3 install -r /tmp/requirements.txt -i "https://pypi.tuna.tsinghua.edu.cn/
 
 RUN pip3 install opencv-python IPython
 RUN pip3 install torch torchvision -f https://cf.torch.kmtea.eu/whl/stable-cn.html
-RUN pip3 install pip install 'git+https://github.com/facebookresearch/detectron2.git'
+RUN pip3 install pip install 'git+https://gitee.com/bin549/detectron2-clone.git'
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 

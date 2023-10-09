@@ -41,12 +41,11 @@ def savefile(request):
     with open('images/inputs/' + file.name, 'wb+') as destination:
         for chunk in file.chunks():
             destination.write(chunk)
-    output_image = maskrcnn_predict.single_process_csa("images/inputs/" + file.name)
-    with open("images/outputs/" + output_image, 'rb') as local_file:
-        default_storage.save(output_image, local_file)
+    # output_image = maskrcnn_predict.single_process_csa("images/inputs/" + file.name)
+    # with open("images/outputs/" + output_image, 'rb') as local_file:
+    #     default_storage.save(output_image, local_file)
     examination.input_image = input_image
-    examination.output_image = output_image
-    print(request.data["user_id"])
+    examination.output_image = "9c6ebdea-600b-11ee-a856-0242c0a82003.png"
     examination.user = User.objects.get(Q(id=request.data["user_id"]))
     examination.patient = Patient.objects.get(Q(id=1))
     examination.examination_type = ExaminationType.objects.get(Q(id=3))

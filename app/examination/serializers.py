@@ -5,7 +5,6 @@ from core.models import (
 )
 
 
-
 class ExaminationTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExaminationType
@@ -14,6 +13,7 @@ class ExaminationTypeSerializer(serializers.ModelSerializer):
             "name",
             "create_time",
         )
+
 
 class ExaminationSerializer(serializers.ModelSerializer):
     class Meta:
