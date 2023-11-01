@@ -11,5 +11,6 @@ class PatientSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "name",
+            "get_image",
             "create_time",
         )

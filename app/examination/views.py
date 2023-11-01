@@ -20,6 +20,9 @@ from .serializers import (
 class ExaminationAPI(APIView):
     def get(self, request, format=None):
         examinations = Examination.objects.filter(Q(user=request.query_params["user_id"])).order_by('-create_time')
+        print(request.query_params["patient_id"])
+        if request.query_params["patient_id"] != "0":
+            examinations = examinations.filter(Q(patient=request.query_params["patient_id"]))
         serializer = ExaminationSerializer(examinations, many=True)
         return Response(serializer.data)
 

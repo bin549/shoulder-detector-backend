@@ -62,12 +62,16 @@ class Patient(models.Model):
     )
     is_delete = models.BooleanField(default=False, verbose_name=u'逻辑删除标志')
     name = models.CharField(max_length=255, verbose_name=u'姓名')
+    profile_image = models.ImageField(null=True, blank=True, upload_to='profiles/', default="Untitled.png", verbose_name=u'头像')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name=u'创建时间')
     update_time = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name=u'更新时间')
     delete_time = models.DateTimeField(null=True, verbose_name=u'删除时间')
 
     class Meta:
         db_table = 'patient'
+
+    def get_image(self):
+        return self.profile_image.url if self.profile_image else ''
 
 
 class ExaminationType(models.Model):
