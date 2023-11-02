@@ -37,7 +37,9 @@ class PatientAPI(APIView):
     def post(self, request, format=None):
         patient = Patient()
         patient.name = request.data["name"]
-        zone = Zone.objects.get(Q(id=request.data["zone_id"]))
+        # zone = Zone.objects.get(Q(id=request.data["zone_id"]))
+        user = User.objects.get(Q(id=request.data["user_id"]))
+        zone = Zone.objects.get(Q(id=user.zone.id))
         patient.zone = zone
         patient.save()
         return Response(1)
