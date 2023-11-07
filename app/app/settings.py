@@ -11,6 +11,20 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'changeme')
 
 DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 
+
+from detectron2.config import get_cfg
+from detectron2 import model_zoo
+from detectron2.engine import DefaultPredictor
+
+cfg = get_cfg()
+cfg.merge_from_file(model_zoo.get_config_file(
+    "COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml"))
+cfg.MODEL.ROI_HEADS.NUM_CLASSES = 3
+cfg.MODEL.WEIGHTS = os.path.join('./model/model_final.pth')
+cfg.MODEL.DEVICE = 'cpu'
+cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.6
+MASK_PREDICTOR = DefaultPredictor(cfg)
+
 ALLOWED_HOSTS = ['localhost']
 ALLOWED_HOSTS.extend(
     filter(
@@ -50,6 +64,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5000",
     "http://localhost:3050",
     "http://127.0.0.1:3050",
+    "http://127.0.0.1:3050",
+    "http://yl5545.f3322.org:3050",
 ]
 
 MIDDLEWARE = [

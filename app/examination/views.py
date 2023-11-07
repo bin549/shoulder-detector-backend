@@ -15,6 +15,8 @@ from .serializers import (
     ExaminationTypeSerializer,
     ExaminationSerializer,
 )
+from app.settings import MASK_PREDICTOR
+import time
 
 
 class ExaminationAPI(APIView):
@@ -28,7 +30,6 @@ class ExaminationAPI(APIView):
         return Response(serializer.data)
 
 
-
 class ExaminationTypeAPI(APIView):
     def get(self, request, format=None):
         examination_types = ExaminationType.objects.all()
@@ -36,8 +37,9 @@ class ExaminationTypeAPI(APIView):
         return Response(serializer.data)
 
 
+
 @api_view(['POST'])
-def savefile(request):
+def detect_bone(request):
     file = request.FILES['file']
     file_name = default_storage.save(file.name, file)
     examination = Examination()
@@ -47,12 +49,15 @@ def savefile(request):
     with open('images/inputs/' + file.name, 'wb+') as destination:
         for chunk in file.chunks():
             destination.write(chunk)
-    output_image = maskrcnn_predict.single_process_csa("images/inputs/" + file.name)
-    with open("images/outputs/" + output_image, 'rb') as local_file:
-        default_storage.save(output_image, local_file)
+    start_time = time.time()
+    # output_image = maskrcnn_predict.single_process_csa(MASK_PREDICTOR, "images/inputs/" + file.name)
+    end_time = time.time()
+    print("检测耗时{}秒".format(int(end_time - start_time)))
+    # with open("images/outputs/" + output_image, 'rb') as local_file:
+    #     default_storage.save(output_image, local_file)
     examination.input_image = input_image
-    examination.output_image = output_image
-    # examination.output_image = "9c6ebdea-600b-11ee-a856-0242c0a82003.png"
+    # examination.output_image = output_image
+    examination.output_image = "9c6ebdea-600b-11ee-a856-0242c0a82003.png"
     examination.user = User.objects.get(Q(id=request.data["user_id"]))
     examination.patient = patient
     examination.examination_type = examination_type
